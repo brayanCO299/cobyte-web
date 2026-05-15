@@ -35,8 +35,8 @@ const { data: { user } } = await supabase.auth.getUser();
 
   // Mantenemos la protección de la ruta admin para COBYTE
 if (request.nextUrl.pathname.startsWith('/admin') && !user) {
-    // 🚧 MODO INGENIERO: Seguridad pausada temporalmente para pruebas locales
-    // return NextResponse.redirect(new URL('/', request.url));
+    
+    return NextResponse.redirect(new URL('/login', request.url));
 }
 
 return response;
@@ -44,5 +44,11 @@ return response;
 
 // El matcher sigue igual, vigilando la administración
 export const config = {
-matcher: ['/admin/:path*'],
-};
+matcher: [
+    /*
+     * Protege solo las rutas que empiezan con /admin
+     * Ignora el resto (incluyendo /login)
+     */
+    '/admin/:path*',
+],
+}
