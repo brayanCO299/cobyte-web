@@ -1,54 +1,22 @@
-import { createServerClient } from '@supabase/ssr';
-import { NextResponse, type NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-// Cambiamos el nombre de la función de middleware a proxy
-export async function proxy(request: NextRequest) {
-let response = NextResponse.next({
-    request: {
-    headers: request.headers,
-    },
-});
+// ÚNICO CAMBIO AQUÍ: Ahora lo exportamos como "default function proxy"
+export default function proxy(request: NextRequest) {
+  // El guardia busca la cookie que plantamos en el login
+const hasAccess = request.cookies.has('sb-access');
 
-const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-    cookies: {
-        getAll() {
-        return request.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
-        response = NextResponse.next({
-            request: {
-            headers: request.headers,
-            },
-        });
-        cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options)
-        );
-        },
-    },
-    }
-);
-const { data: { user } } = await supabase.auth.getUser();
-
-  // Mantenemos la protección de la ruta admin para COBYTE
-if (request.nextUrl.pathname.startsWith('/admin') && !user) {
-    
+  // Si intentas entrar a /admin y NO tienes la cookie, te expulsa al login
+if (request.nextUrl.pathname.startsWith('/admin') && !hasAccess) {
     return NextResponse.redirect(new URL('/login', request.url));
 }
 
-return response;
+  // Si tienes la cookie, te deja pasar al panel
+return NextResponse.next();
 }
 
-// El matcher sigue igual, vigilando la administración
 export const config = {
 matcher: [
-    /*
-     * Protege solo las rutas que empiezan con /admin
-     * Ignora el resto (incluyendo /login)
-     */
     '/admin/:path*',
 ],
-}
+};

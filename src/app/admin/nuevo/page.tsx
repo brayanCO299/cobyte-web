@@ -69,12 +69,14 @@ const handleSubmit = async (e: React.FormEvent) => {
       router.push('/admin'); // Regresa al panel
     router.refresh();
 
-    } catch (error) {
-    console.error('Error:', error);
-    alert('Hubo un error al registrar. Revisa la consola.');
-    } finally {
-    setLoading(false);
-    }
+    } // Modifica tu bloque catch para que se vea así:
+catch (err: any) {
+  // Desenmascaramos el error real
+console.error("Detalle completo del error:", JSON.stringify(err, null, 2));
+console.error("Mensaje directo:", err.message);
+
+alert(`Fallo en el servidor: ${err.message || 'Revisa la consola'}`);
+}
 };
 
 return (

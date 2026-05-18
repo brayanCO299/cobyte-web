@@ -1,3 +1,4 @@
+import HeroCarousel from '@/components/ui/HeroCarousel';
 import Link from 'next/link';
 import { 
   Laptop, 
@@ -14,35 +15,16 @@ export default function Home() {
   return (
     <div className="flex flex-col w-full">
       
-      {/* SECCIÓN HERO - IMPACTO INICIAL */}
-      <section className="relative bg-white dark:bg-gray-950 pt-16 pb-20 lg:pt-24 lg:pb-28 overflow-hidden transition-colors duration-300">
+      {/* SECCIÓN HERO - CARRUSEL DINÁMICO */}
+      <section className="relative bg-white dark:bg-gray-950 pt-6 pb-12 overflow-hidden transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center">
-            <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white sm:text-5xl md:text-6xl">
-              <span className="block xl:inline">Innovación </span>
-              <span className="block text-blue-600 xl:inline">Tecnológica</span>
-              <span className="block xl:inline"> y Pasión </span>
-              <span className="block text-blue-600 xl:inline">Musical</span>
-            </h1>
-            <p className="mt-3 max-w-md mx-auto text-base text-gray-500 dark:text-gray-400 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-              Encuentra los mejores equipos, accesorios musicales, clases particulares y soporte técnico especializado en Bagua. Todo en un solo lugar.
-            </p>
-            <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
-              <div className="rounded-md shadow">
-                <Link href="/tech" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-bold rounded-xl text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10 transition-all active:scale-95">
-                  Ver Catálogo Tech
-                </Link>
-              </div>
-              <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-                <Link href="/services" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-bold rounded-xl text-blue-600 bg-blue-50 dark:bg-gray-900 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-gray-800 md:py-4 md:text-lg md:px-10 transition-all active:scale-95">
-                  Solicitar Asistencia
-                </Link>
-              </div>
-            </div>
-          </div>
+          
+          {/* AQUÍ INYECTAMOS TU NUEVO CARRUSEL */}
+          <HeroCarousel />
+          
         </div>
         
-        {/* Decoración de fondo suave */}
+        {/* Decoración de fondo suave (La mantenemos para conservar tu estilo) */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full opacity-10 pointer-events-none">
           <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
           <div className="absolute top-40 right-10 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
@@ -62,7 +44,7 @@ export default function Home() {
               <h3 className="text-xl font-bold text-gray-900 dark:text-white">Computo y Accesorios</h3>
               <p className="mt-2 text-gray-500 dark:text-gray-400 text-sm">Laptops, componentes, periféricos y repuestos de alta calidad con garantía local.</p>
               <Link href="/tech" className="mt-4 flex items-center text-blue-600 dark:text-blue-400 font-bold text-sm">
-                Explorar productos <ArrowRight size={16} className="ml-1" />
+                Explorar productos <ArrowRight size={16} className="ml-1 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
 
@@ -74,7 +56,7 @@ export default function Home() {
               <h3 className="text-xl font-bold text-gray-900 dark:text-white">Instrumentos Musicales</h3>
               <p className="mt-2 text-gray-500 dark:text-gray-400 text-sm">Guitarras, teclados y accesorios. También ofrecemos clases personalizadas en Bagua.</p>
               <Link href="/music" className="mt-4 flex items-center text-purple-600 dark:text-purple-400 font-bold text-sm">
-                Ver instrumentos <ArrowRight size={16} className="ml-1" />
+                Ver instrumentos <ArrowRight size={16} className="ml-1 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
 
@@ -86,7 +68,7 @@ export default function Home() {
               <h3 className="text-xl font-bold text-gray-900 dark:text-white">Servicio Técnico</h3>
               <p className="mt-2 text-gray-500 dark:text-gray-400 text-sm">Mantenimiento preventivo, reparación de hardware y optimización de sistemas operativos.</p>
               <Link href="/services" className="mt-4 flex items-center text-green-600 dark:text-green-400 font-bold text-sm">
-                Conocer servicios <ArrowRight size={16} className="ml-1" />
+                Conocer servicios <ArrowRight size={16} className="ml-1 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
 
@@ -143,7 +125,9 @@ export default function Home() {
             Estamos en Bagua para brindarte la mejor atención personalizada. Contáctanos ahora mismo.
           </p>
           <Link 
-            href="https://wa.me/tu_numero" 
+            href="https://wa.me/51945250393" 
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center bg-white text-blue-600 px-8 py-3 rounded-xl font-black text-lg hover:bg-gray-100 transition-colors shadow-xl"
           >
             Chatear con un experto

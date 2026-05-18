@@ -5,10 +5,16 @@ import { createClient } from '@supabase/supabase-js';
 import { Lock, User, Loader2, ShieldCheck } from 'lucide-react';
 
 // Solución técnica para el Build: Inicializar solo si las variables existen
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder';
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Nuestro chivato para la consola del navegador
+console.log("URL LEÍDA POR NEXT.JS:", supabaseUrl || "¡ESTÁ VACÍA!");
+
+const supabase = createClient(
+supabaseUrl || 'https://dummy.supabase.co', 
+supabaseAnonKey || 'dummy'
+);
 
 export default function LoginPage() {
 // ... todo el resto de tu código del componente sigue EXACTAMENTE IGUAL
@@ -27,9 +33,12 @@ const handleLogin = async (e: React.FormEvent) => {
     });
 
     if (error) {
-        alert("Error: " + error.message);
-    } else if (data.user) {
-        // Redirección dura para limpiar caché de sesión y activar Middleware
+        alert("Error de autenticación: " + error.message);
+    } else if (data.session) {
+        // EL TRUCO: Plantar una cookie que el Middleware sí pueda ver
+        document.cookie = `sb-access=${data.session.access_token}; path=/; max-age=86400`; // Dura 1 día
+        
+        // Ahora sí, nos movemos al panel
         window.location.replace('/admin');
     }
     } catch (err) {
